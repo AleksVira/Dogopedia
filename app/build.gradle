@@ -1,0 +1,100 @@
+apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-kapt'
+apply plugin: 'androidx.navigation.safeargs.kotlin'
+
+android {
+    compileSdkVersion versions.compileSdk
+
+    defaultConfig {
+        applicationId "ru.virarnd.dogopedia"
+        minSdkVersion versions.minSdk
+        targetSdkVersion versions.targetSdk
+        versionCode 1
+        versionName "1.0"
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    buildFeatures {
+        viewBinding = true
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+    kotlinOptions {
+        jvmTarget = JavaVersion.VERSION_1_8.toString()
+    }
+}
+
+dependencies {
+    implementation fileTree(dir: "libs", include: ["*.jar"])
+    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
+
+    implementation libraries.kotlinstdlib
+    implementation libraries.core
+    implementation libraries.appcompat
+    implementation libraries.constraintLayout
+
+    //Navigation
+    implementation libraries.navigation_fragment
+    implementation libraries.navigation_ui
+
+    //Room
+    implementation libraries.room_lib
+    implementation libraries.room_ktx
+    kapt libraries.room_kapt
+
+    //LiveData
+
+    //Retrofit, Okhttp3 and Moshi
+    implementation libraries.retrofit2
+    implementation libraries.retrofit_converter
+    implementation libraries.moshi
+    implementation libraries.moshi_adapter
+    kapt libraries.moshi_kapt
+    implementation libraries.okhttp3
+    implementation libraries.okhttp3_logging
+
+    //Lifecycle
+    implementation libraries.lifecycle_viewmodel
+    implementation libraries.lifecycle_livedata
+    kapt libraries.lifecycle_kapt
+
+    implementation libraries.timber
+
+    //Koin
+    implementation libraries.koin_kotlin
+    implementation libraries.koin_android
+    implementation libraries.koin_scope
+    implementation libraries.koin_fragments
+    implementation libraries.koin_viewmodel
+
+    //Viewpager2
+    implementation libraries.viewpager2
+
+    //Glide
+    implementation libraries.glide
+    kapt libraries.glide_kapt
+
+    implementation libraries.fragment
+    implementation libraries.activity
+
+
+
+    testImplementation libraries.junit
+    androidTestImplementation libraries.junit_ext
+    androidTestImplementation libraries.espresso
+
+}

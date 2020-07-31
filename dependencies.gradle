@@ -1,0 +1,90 @@
+ext.versions = [
+        minSdk                  : 21,
+        targetSdk               : 29,
+        compileSdk              : 29,
+        buildTools              : '29.0.3',
+
+        androidx_core           : '1.3.0',
+        androidx_appcompat      : '1.1.0',
+        constraintLayout        : '1.1.3',
+
+        androidGradlePlugin     : '4.0.1',
+        kotlin_version          : '1.3.72',
+
+        junit                   : '4.13',
+        junit_ext               : '1.1.1',
+        espresso                : '3.2.0',
+
+        coroutines              : '1.3.8',
+        navigation              : '2.3.0',
+        room                    : '2.2.5',
+        lifecycle               : '2.2.0',
+        retrofit2               : '2.9.0',
+        moshi                   : '1.9.3',
+        okhttp3                 : '4.8.0',
+        timber                  : '4.7.1',
+        koin                    : '2.1.6',
+        viewpager2              : '1.0.0',
+        glide                   : '4.11.0',
+        fragment                : '1.3.0-alpha07',
+        activity                : '1.2.0-alpha07'
+
+
+]
+
+ext.libraries = [
+        kotlinstdlib : "org.jetbrains.kotlin:kotlin-stdlib:$versions.kotlin_version",
+        core : "androidx.core:core-ktx:$versions.androidx_core",
+        appcompat : "androidx.appcompat:appcompat:$versions.androidx_appcompat",
+        constraintLayout : "androidx.constraintlayout:constraintlayout:$versions.constraintLayout",
+
+        junit : "junit:junit:$versions.junit",
+        junit_ext : "androidx.test.ext:junit:$versions.junit_ext",
+        espresso : "androidx.test.espresso:espresso-core:$versions.espresso",
+
+        navigation_fragment : "androidx.navigation:navigation-fragment-ktx:$versions.navigation",
+        navigation_ui : "androidx.navigation:navigation-ui-ktx:$versions.navigation",
+
+        room_lib : "androidx.room:room-runtime:$versions.room",
+        room_kapt : "androidx.room:room-compiler:$versions.room",
+        room_ktx : "androidx.room:room-ktx:$versions.room",
+
+        retrofit2 : "com.squareup.retrofit2:retrofit:$versions.retrofit2",
+        retrofit_converter : "com.squareup.retrofit2:converter-moshi:$versions.retrofit2",
+
+        moshi : "com.squareup.moshi:moshi-kotlin:$versions.moshi",
+        moshi_kapt : "com.squareup.moshi:moshi-kotlin-codegen:$versions.moshi",
+        moshi_adapter : "com.squareup.moshi:moshi-adapters:$versions.moshi",
+
+        okhttp3 : "com.squareup.okhttp3:okhttp:$versions.okhttp3",
+        okhttp3_logging : "com.squareup.okhttp3:logging-interceptor:$versions.okhttp3",
+
+        lifecycle_viewmodel : "androidx.lifecycle:lifecycle-viewmodel-ktx:$versions.lifecycle",
+        lifecycle_livedata : "androidx.lifecycle:lifecycle-livedata-ktx:$versions.lifecycle",
+        lifecycle_kapt : "androidx.lifecycle:lifecycle-compiler:$versions.lifecycle",
+
+        timber : "com.jakewharton.timber:timber:$versions.timber",
+
+        koin_kotlin : "org.koin:koin-core:$versions.koin",
+        koin_android : "org.koin:koin-android:$versions.koin",
+        koin_scope : "org.koin:koin-androidx-scope:$versions.koin",
+        koin_fragments : "org.koin:koin-androidx-fragment:$versions.koin",
+        koin_viewmodel : "org.koin:koin-androidx-viewmodel:$versions.koin",
+
+//        coroutines : "org.jetbrains.kotlinx:kotlinx-coroutines-core:$versions.coroutines",
+
+        viewpager2 : "androidx.viewpager2:viewpager2:$versions.viewpager2",
+
+        glide : "com.github.bumptech.glide:glide:$versions.glide",
+        glide_kapt : "com.github.bumptech.glide:compiler:$versions.glide",
+
+        fragment : "androidx.fragment:fragment-ktx:$versions.fragment",
+        activity : "androidx.activity:activity-ktx:$versions.activity"
+]
+
+ext.gradlePlugins = [
+        android     : "com.android.tools.build:gradle:$versions.androidGradlePlugin",
+        kotlin      : "org.jetbrains.kotlin:kotlin-gradle-plugin:$versions.kotlin_version",
+        koin        : "org.koin:koin-gradle-plugin:$versions.koin",
+        safeargs    : "androidx.navigation:navigation-safe-args-gradle-plugin:$versions.navigation"
+]
