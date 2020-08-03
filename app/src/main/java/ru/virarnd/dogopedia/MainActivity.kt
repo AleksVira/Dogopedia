@@ -32,6 +32,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(view)
 
         setSupportActionBar(binding.toolbar)
+        supportActionBar?.setDisplayShowTitleEnabled(false)
 
         binding.bottomNavView.setupWithNavController(navController)
 
@@ -87,7 +88,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun setTitleText(newTitle: String) {
-        binding.toolbar.toolbarTextView.text = newTitle
+        binding.toolbarTextView.text = newTitle
     }
 
     fun startProgress(state: Boolean) {
