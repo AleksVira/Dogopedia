@@ -42,12 +42,12 @@ class MainActivity : AppCompatActivity() {
                     Timber.d("MyLog_MainActivity_onCreate: RESELECTED: ${it.itemId}")
                 }
                 R.id.breed_main_list -> {
-                    navController.popBackStack(R.id.breedsListFragment, true)
+//                    navController.popBackStack(R.id.breedsListFragment, true)
                     navController.navigate(R.id.breedsListFragment)
                     it.isChecked = true
                 }
                 R.id.favourite_list -> {
-                    navController.popBackStack(R.id.favouritesFragment, true)
+//                    navController.popBackStack(R.id.favouritesFragment, true)
                     navController.navigate(R.id.favouritesFragment)
                     it.isChecked = true
                 }
