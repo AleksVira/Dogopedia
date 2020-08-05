@@ -36,7 +36,6 @@ class FavouritesFragment : Fragment() {
             Timber.d("MyLog_FavouritesFragment_onCreate: BACK PRESSED!")
             findNavController().popBackStack(R.id.breedsListFragment, true)
             findNavController().navigate(R.id.breedsListFragment)
-
         }
         backPressedCallback.isEnabled
 

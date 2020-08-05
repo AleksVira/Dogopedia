@@ -28,6 +28,7 @@ import ru.virarnd.dogopedia.databinding.FragmentPageBreedDetailBinding
 import ru.virarnd.dogopedia.models.DetailPageItem
 import timber.log.Timber
 import java.io.ByteArrayOutputStream
+import java.io.File
 import java.util.*
 
 
@@ -124,7 +125,7 @@ class PageBreedDetailFragment : Fragment() {
                 val path: String = MediaStore.Images.Media.insertImage(
                     requireActivity().contentResolver,
                     dogBitmap,
-                    "",
+                    File.separator + "IMG_" + Calendar.getInstance().time + ".png",
                     null
                 )
                 Timber.d("MyLog_PageBreedDetailFragment_onViewCreated: $dogBitmap")
