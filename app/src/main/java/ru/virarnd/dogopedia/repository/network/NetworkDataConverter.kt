@@ -7,7 +7,7 @@ import ru.virarnd.dogopedia.models.SubBreedListItem
 
 class NetworkDataConverter {
 
-    fun toScreenBreedList(message: Map<String, ArrayList<String>>?): List<BreedListItem> {
+    fun toScreenBreedList(message: Map<String, List<String>>?): List<BreedListItem> {
         val result: ArrayList<BreedListItem> = arrayListOf()
         message?.forEach { (name, subBreeds) ->
             // Если массив пустой -- у нас просто порода, без подпород

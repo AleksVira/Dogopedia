@@ -1,6 +1,7 @@
 package ru.virarnd.dogopedia.repository.network
 
 import com.squareup.moshi.Moshi
+import com.squareup.moshi.Types
 import ru.virarnd.dogopedia.models.BreedListItem
 import ru.virarnd.dogopedia.models.SingleBreedDataItem
 import ru.virarnd.dogopedia.models.SubBreedDataItem
@@ -19,9 +20,10 @@ class BreedsNetwork(
             val response = breedsApi.getAllBreeds()
             val message = response.message
             val moshi = Moshi.Builder().build()
-            val adapter = moshi.adapter(Any::class.java)
+            val type = Types.newParameterizedType(Map::class.java, String::class.java, List::class.java)
+            val adapter = moshi.adapter<Map<String, List<String>?>>(type)
             val jsonStructure = adapter.toJsonValue(message)
-            val jsonObject = jsonStructure as Map<String, ArrayList<String>>?
+            val jsonObject = jsonStructure as Map<String, List<String>>?
             val result = networkDataConverter.toScreenBreedList(jsonObject)
             responseHandler.handleSuccess(result)
         } catch (e: Exception) {
