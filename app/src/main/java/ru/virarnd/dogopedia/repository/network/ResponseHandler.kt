@@ -1,22 +1,22 @@
 package ru.virarnd.dogopedia.repository.network
 
 import retrofit2.HttpException
-import ru.virarnd.dogopedia.repository.network.helpers.Result
+import ru.virarnd.dogopedia.repository.network.helpers.RequestResult
 import java.lang.Exception
 import java.net.SocketTimeoutException
 
 open class ResponseHandler {
 
-    fun <T: Any> handleSuccess(data: T): Result<T> {
-        return Result.Success(data)
+    fun <T: Any> handleSuccess(data: T): RequestResult<T> {
+        return RequestResult.Success(data)
     }
 
-    fun <T: Any> handleException(e: Exception): Result<T> {
+    fun <T: Any> handleException(e: Exception): RequestResult<T> {
         return when (e) {
-            is HttpException -> Result.Error("${getErrorMessage(e.code())} ${e.response()?.errorBody()?.string()}")
-            is SocketTimeoutException -> Result.Error(getErrorMessage(
+            is HttpException -> RequestResult.Error("${getErrorMessage(e.code())} ${e.response()?.errorBody()?.string()}")
+            is SocketTimeoutException -> RequestResult.Error(getErrorMessage(
                 ErrorCodes.SocketTimeOut.code))
-            else -> Result.Error(getErrorMessage(Int.MAX_VALUE))
+            else -> RequestResult.Error(getErrorMessage(Int.MAX_VALUE))
         }
     }
 

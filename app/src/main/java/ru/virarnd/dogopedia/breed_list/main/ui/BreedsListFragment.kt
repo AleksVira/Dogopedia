@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.navigation.NavDirections
@@ -22,7 +21,6 @@ import ru.virarnd.dogopedia.models.BreedSetListItem
 import ru.virarnd.dogopedia.models.BreedSingleListItem
 import ru.virarnd.dogopedia.models.SubBreedListItem
 import ru.virarnd.dogopedia.repository.network.helpers.LoadingState
-import ru.virarnd.dogopedia.repository.network.helpers.LoadingState.Status.RUNNING
 import timber.log.Timber
 
 class BreedsListFragment : Fragment() {
@@ -30,26 +28,22 @@ class BreedsListFragment : Fragment() {
     private var _binding: FragmentBreedsListBinding? = null
     private val binding get() = _binding!!
 
-    private lateinit var breedListAdapter: BreedListAdapter
-
     private val breedListViewModel: BreedListViewModel by viewModel()
 
+    private val breedListAdapter = BreedListAdapter { item: BreedListItem -> breedNameClicked(item) }
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         _binding = FragmentBreedsListBinding.inflate(inflater, container, false)
-
-        breedListAdapter = BreedListAdapter { item: BreedListItem -> breedNameClicked(item) }
 
         with(binding.mainList) {
             layoutManager = LinearLayoutManager(context, RecyclerView.VERTICAL, false)
             adapter = breedListAdapter
             setDivider(R.drawable.horizontal_divider)
         }
-
         return binding.root
     }
 

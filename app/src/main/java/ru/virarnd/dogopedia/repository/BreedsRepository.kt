@@ -7,7 +7,7 @@ import ru.virarnd.dogopedia.favourites.main.data.FavouriteDataItem
 import ru.virarnd.dogopedia.repository.database.BreedsDatabase
 import ru.virarnd.dogopedia.repository.database.BreedsDatabaseConverter
 import ru.virarnd.dogopedia.repository.network.BreedsNetwork
-import ru.virarnd.dogopedia.repository.network.helpers.Result
+import ru.virarnd.dogopedia.repository.network.helpers.RequestResult
 import timber.log.Timber
 
 class BreedsRepository(
@@ -22,10 +22,10 @@ class BreedsRepository(
         return try {
             val networkResult = breedsNetwork.getAllBreedsList()
             when (networkResult) {
-                is Result.Success -> {
+                is RequestResult.Success -> {
                     networkResult.data
                 }
-                is Result.Error -> {
+                is RequestResult.Error -> {
                     emptyList()
                 }
             }
@@ -40,17 +40,15 @@ class BreedsRepository(
         return try {
             val singleBreedNetworkResult = breedsNetwork.getOneBreed(breedName)
             when (singleBreedNetworkResult) {
-                is Result.Success -> {
+                is RequestResult.Success -> {
                     breedsDatabase.singleBreedsDao.addSingleBreed(
                         breedsDatabaseConverter.toSingleBreedEntity(
                             singleBreedNetworkResult.data
                         )
                     )
-
-
                     singleBreedNetworkResult.data
                 }
-                is Result.Error -> null
+                is RequestResult.Error -> null
             }
         } catch (e: Exception) {
             Timber.d("MyLog_BreedsRepository_getOneBreedData: $e")
@@ -70,7 +68,7 @@ class BreedsRepository(
         return try {
             val subBreedNetworkResult = breedsNetwork.getSubBreed(parentName, subBreedName)
             when (subBreedNetworkResult) {
-                is Result.Success -> {
+                is RequestResult.Success -> {
                     breedsDatabase.subBreedsDao.addSubBreed(
                         breedsDatabaseConverter.toSubBreedEntity(
                             subBreedNetworkResult.data
@@ -80,7 +78,7 @@ class BreedsRepository(
 
                     subBreedNetworkResult.data
                 }
-                is Result.Error -> null
+                is RequestResult.Error -> null
             }
         } catch (e: Exception) {
             Timber.d("MyLog_BreedsRepository_getSubBreedData: $e")

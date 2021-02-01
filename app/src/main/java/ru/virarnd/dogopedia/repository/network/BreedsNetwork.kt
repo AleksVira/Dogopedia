@@ -5,7 +5,7 @@ import com.squareup.moshi.Types
 import ru.virarnd.dogopedia.models.BreedListItem
 import ru.virarnd.dogopedia.models.SingleBreedDataItem
 import ru.virarnd.dogopedia.models.SubBreedDataItem
-import ru.virarnd.dogopedia.repository.network.helpers.Result
+import ru.virarnd.dogopedia.repository.network.helpers.RequestResult
 import timber.log.Timber
 
 
@@ -15,12 +15,13 @@ class BreedsNetwork(
     private val responseHandler: ResponseHandler
 ) {
 
-    suspend fun getAllBreedsList(): Result<List<BreedListItem>> {
+    suspend fun getAllBreedsList(): RequestResult<List<BreedListItem>> {
         return try {
             val response = breedsApi.getAllBreeds()
             val message = response.message
             val moshi = Moshi.Builder().build()
-            val type = Types.newParameterizedType(Map::class.java, String::class.java, List::class.java)
+            val type =
+                Types.newParameterizedType(Map::class.java, String::class.java, List::class.java)
             val adapter = moshi.adapter<Map<String, List<String>?>>(type)
             val jsonStructure = adapter.toJsonValue(message)
             val jsonObject = jsonStructure as Map<String, List<String>>?
@@ -32,7 +33,7 @@ class BreedsNetwork(
         }
     }
 
-    suspend fun getOneBreed(breedName: String): Result<SingleBreedDataItem> {
+    suspend fun getOneBreed(breedName: String): RequestResult<SingleBreedDataItem> {
         return try {
             val singleResponse = breedsApi.getBreedImagesByName(breedName.toLowerCase())
             Timber.d("MyLog_BreedsNetwork_getOneBreed: ${singleResponse.message}")
@@ -46,9 +47,15 @@ class BreedsNetwork(
         }
     }
 
-    suspend fun getSubBreed(parentName: String, subBreedName: String): Result<SubBreedDataItem> {
+    suspend fun getSubBreed(
+        parentName: String,
+        subBreedName: String
+    ): RequestResult<SubBreedDataItem> {
         return try {
-            val subBreedResponse = breedsApi.getSubBreedImagesByName(parentName.toLowerCase(), subBreedName.toLowerCase())
+            val subBreedResponse = breedsApi.getSubBreedImagesByName(
+                parentName.toLowerCase(),
+                subBreedName.toLowerCase()
+            )
             Timber.d("MyLog_BreedsNetwork_getOneBreed: ${subBreedResponse.message}")
             val breedResult = SubBreedDataItem(
                 parentName,

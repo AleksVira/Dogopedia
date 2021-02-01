@@ -4,8 +4,11 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.CoroutineExceptionHandler
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import ru.virarnd.dogopedia.common.ConsumableValue
 import ru.virarnd.dogopedia.favourites.main.data.FavouriteDataItem
 import ru.virarnd.dogopedia.models.BreedDataItem
@@ -20,39 +23,52 @@ class DetailViewModel(
 
     private val _breedDetailPageLiveData: MutableLiveData<ConsumableValue<List<DetailPageItem>>> =
         MutableLiveData()
-    val breedDetailPageLiveData: LiveData<ConsumableValue<List<DetailPageItem>>> =
-        _breedDetailPageLiveData
+    val breedDetailPageLiveData: LiveData<ConsumableValue<List<DetailPageItem>>>
+        get() = _breedDetailPageLiveData
 
     private val _loadingState = MutableLiveData<LoadingState>()
-    val loadingState: LiveData<LoadingState> = _loadingState
+    val loadingState: LiveData<LoadingState>
+        get() = _loadingState
 
     private val _uriRequest = MutableLiveData<ConsumableValue<Boolean>>()
-    val uriRequest: LiveData<ConsumableValue<Boolean>> = _uriRequest
+    val uriRequest: LiveData<ConsumableValue<Boolean>>
+        get() = _uriRequest
+
+    private val exceptionHandler = CoroutineExceptionHandler { context, exception ->
+        Timber.e("MyTAG_DetailViewModel_(): ${exception.message}")
+    }
 
     private var currentBreedDataItem: BreedDataItem? = null
     private lateinit var currentDataItem: FavouriteDataItem
     private lateinit var detailPageItemsList: MutableList<DetailPageItem>
 
     fun fetchSingleBreedData(breedName: String) {
-        viewModelScope.launch(IO) {
-            try {
-                _loadingState.postValue(LoadingState.LOADING)
-                currentBreedDataItem = repository.getSingleBreedData(breedName)
-                currentDataItem = repository.getSingleBreedFavourites(breedName)
-                detailPageItemsList =
-                    currentBreedDataItem?.pictures?.mapIndexed { index, url ->
-                        DetailPageItem(
-                            index.toLong(),
-                            url,
-                            currentDataItem.pictures.contains(url)
+        viewModelScope.launch(exceptionHandler) {
+            withContext(Dispatchers.Main) {
+                _loadingState.value = LoadingState.LOADING
+                withContext(IO) {
+                    currentBreedDataItem = repository.getSingleBreedData(breedName)
+                    currentDataItem = repository.getSingleBreedFavourites(breedName)
+                    detailPageItemsList =
+                        currentBreedDataItem?.pictures?.mapIndexed { index, url ->
+                            DetailPageItem(
+                                index.toLong(),
+                                url,
+                                currentDataItem.pictures.contains(url)
+                            )
+                        }?.toMutableList() ?: mutableListOf()
+                    _breedDetailPageLiveData.postValue(
+                        ConsumableValue(
+                            detailPageItemsList
                         )
-                    }?.toMutableList() ?: mutableListOf()
-                _breedDetailPageLiveData.postValue(
-                    ConsumableValue(
-                        detailPageItemsList
                     )
-                )
-                _loadingState.postValue(LoadingState.LOADED)
+                    _loadingState.postValue(LoadingState.LOADED)
+
+                }
+
+
+            }
+            try {
             } catch (e: Exception) {
                 Timber.e("MyLog_DetailViewModel_fetchSingleBreedData: ${e.message}")
                 _loadingState.postValue(LoadingState.error(e.message))
@@ -75,9 +91,7 @@ class DetailViewModel(
                         )
                     }?.toMutableList() ?: mutableListOf()
                 _breedDetailPageLiveData.postValue(
-                    ConsumableValue(
-                        detailPageItemsList
-                    )
+                    ConsumableValue(detailPageItemsList)
                 )
                 _loadingState.postValue(LoadingState.LOADED)
             } catch (e: Exception) {

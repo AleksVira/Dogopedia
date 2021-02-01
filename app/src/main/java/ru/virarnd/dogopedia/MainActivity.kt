@@ -7,10 +7,8 @@ import android.view.View.VISIBLE
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.NavController
-import androidx.navigation.NavOptions
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
-import kotlinx.android.synthetic.main.activity_main.view.*
 import ru.virarnd.dogopedia.databinding.ActivityMainBinding
 import timber.log.Timber
 
@@ -24,12 +22,9 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         setTheme(R.style.AppTheme)
-
         super.onCreate(savedInstanceState)
-
         binding = ActivityMainBinding.inflate(layoutInflater)
-        val view = binding.root
-        setContentView(view)
+        setContentView(binding.root)
 
         setSupportActionBar(binding.toolbar)
         supportActionBar?.setDisplayShowTitleEnabled(false)
@@ -42,12 +37,10 @@ class MainActivity : AppCompatActivity() {
                     Timber.d("MyLog_MainActivity_onCreate: RESELECTED: ${it.itemId}")
                 }
                 R.id.breed_main_list -> {
-//                    navController.popBackStack(R.id.breedsListFragment, true)
                     navController.navigate(R.id.breedsListFragment)
                     it.isChecked = true
                 }
                 R.id.favourite_list -> {
-//                    navController.popBackStack(R.id.favouritesFragment, true)
                     navController.navigate(R.id.favouritesFragment)
                     it.isChecked = true
                 }
@@ -58,15 +51,14 @@ class MainActivity : AppCompatActivity() {
         navController.addOnDestinationChangedListener { _, destination, _ ->
             Timber.d("MyLog_MainActivity_onCreate: NEW DESTINATION -> ${destination.id}")
             when (destination.id) {
-                R.id.breedsListFragment -> {
-                    Timber.d("MyLog_MainActivity_onCreate: NEED MY ICON !!!")
+                R.id.breedsListFragment, R.id.favouritesFragment -> {
                     hideNavBar(false)
                     showBackArrow(false)
                 }
-                R.id.favouritesFragment -> {
-                    hideNavBar(false)
-                    showBackArrow(false)
-                }
+//                R.id.favouritesFragment -> {
+//                    hideNavBar(false)
+//                    showBackArrow(false)
+//                }
                 else -> {
                     hideNavBar(true)
                     showBackArrow(true)
